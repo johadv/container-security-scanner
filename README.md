@@ -19,7 +19,8 @@ You only need Python 3. The wrapper script uses the system Python by default and
 
 ```bash
 chmod +x scan.sh
-./scan.sh example.Dockerfile
+./scan.sh example.insecure.Dockerfile
+./scan.sh example.secure.Dockerfile
 ```
 
 ### Direct Python usage
@@ -28,7 +29,8 @@ chmod +x scan.sh
 python3 -m venv .venv
 . .venv/bin/activate
 python -m pip install -r requirements.txt
-python security_scanner.py example.Dockerfile
+python security_scanner.py example.insecure.Dockerfile
+python security_scanner.py example.secure.Dockerfile
 ```
 
 ## Usage
@@ -37,7 +39,8 @@ python security_scanner.py example.Dockerfile
 
 ```bash
 ./scan.sh .
-./scan.sh example.Dockerfile
+./scan.sh example.insecure.Dockerfile
+./scan.sh example.secure.Dockerfile
 ./scan.sh deployment.yaml
 ```
 
@@ -98,13 +101,19 @@ If your Docker CLI is using Colima, the project works the same way as it does on
 colima start
 docker build -f Dockerfile.scanner -t container-security-scanner .
 docker run --rm -v "$PWD:/workspace" container-security-scanner /workspace
-docker run --rm -v "$PWD:/workspace" container-security-scanner /workspace/example.Dockerfile --output json
+docker run --rm -v "$PWD:/workspace" container-security-scanner /workspace/example.insecure.Dockerfile --output json
+docker run --rm -v "$PWD:/workspace" container-security-scanner /workspace/example.secure.Dockerfile --output json
 ```
 
 Notes:
 
 - `colima start` is only needed on macOS if Docker is not already connected to Colima.
 - On Linux, the same `docker build` and `docker run` commands work without Colima.
+
+## Example Files
+
+- `example.insecure.Dockerfile` is intentionally insecure and is meant to demonstrate how the scanner reports findings.
+- `example.secure.Dockerfile` is a minimal example that follows the key checks more closely: no root user, a minimal base image, and a simple runtime-only setup.
 
 ## Checks
 

@@ -90,7 +90,7 @@ show_help() {
     echo ""
     echo "Examples:"
     echo "  $0 .                              # Scan the current directory"
-    echo "  $0 example.Dockerfile             # Scan a specific Dockerfile"
+    echo "  $0 example.insecure.Dockerfile    # Scan a specific Dockerfile"
     echo "  $0 --user admin deployment.yaml   # Scan with admin permissions"
     echo "  $0 --output json .                # JSON output"
 }
