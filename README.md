@@ -11,6 +11,11 @@ A simple command-line tool for checking the security posture of Dockerfiles and 
 - Works locally on macOS and Linux
 - Works inside Docker and Colima as well
 
+## Example Files
+
+- `example.insecure.Dockerfile` is intentionally insecure and is meant to demonstrate how the scanner reports findings.
+- `example.secure.Dockerfile` is a minimal example that follows the key checks more closely: no root user, a minimal base image, and a simple runtime-only setup.
+
 ## Installation
 
 ### Local usage
@@ -93,6 +98,27 @@ Security report
    +--> non-zero exit on HIGH/ERROR
 ```
 
+## How This Fits Into A DevSecOps Workflow
+
+This tool is designed for the early part of the software delivery lifecycle. It helps developers catch risky Dockerfile and Kubernetes manifest patterns before builds and deployments move forward.
+
+Typical workflow:
+
+1. Developer writes a Dockerfile or Kubernetes manifest.
+2. This scanner runs locally or in CI to catch configuration issues early.
+3. Tools like Trivy can then scan images and dependencies for known vulnerabilities.
+4. Kubernetes admission controllers can enforce cluster policies at deploy time.
+5. Falco can monitor runtime behavior after workloads are already running.
+
+In short:
+
+- This tool: pre-deployment configuration checks
+- Trivy: vulnerability and image scanning
+- Admission controllers: deployment-time policy enforcement
+- Falco: runtime threat detection
+
+That means this project does not replace those tools. It complements them by shifting basic container security checks earlier into development.
+
 ## Colima on macOS
 
 If your Docker CLI is using Colima, the project works the same way as it does on Linux.
@@ -109,11 +135,6 @@ Notes:
 
 - `colima start` is only needed on macOS if Docker is not already connected to Colima.
 - On Linux, the same `docker build` and `docker run` commands work without Colima.
-
-## Example Files
-
-- `example.insecure.Dockerfile` is intentionally insecure and is meant to demonstrate how the scanner reports findings.
-- `example.secure.Dockerfile` is a minimal example that follows the key checks more closely: no root user, a minimal base image, and a simple runtime-only setup.
 
 ## Checks
 
